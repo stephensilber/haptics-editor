@@ -9,6 +9,7 @@ export class WebHaptics {
   private instanceId: number;
   private debug: boolean;
   private rafId: number | null = null;
+  private patternResolve: (() => void) | null = null;
   private audioCtx: AudioContext | null = null;
 
   constructor(options?: WebHapticsOptions) {
@@ -51,27 +52,20 @@ export class WebHaptics {
         await this.ensureAudio();
       }
 
-      for (let i = 0; i < pattern.length; i++) {
-        if (i % 2 === 0) {
-          this.startToggleLoop(intensity);
-        } else {
-          this.stopToggleLoop();
-        }
-        await new Promise((resolve) => setTimeout(resolve, pattern[i]));
-      }
-      this.stopToggleLoop();
+      this.stopPattern();
+      await this.runPattern(pattern, intensity);
     }
   }
 
   cancel(): void {
-    this.stopToggleLoop();
+    this.stopPattern();
     if (WebHaptics.isSupported()) {
       navigator.vibrate(0);
     }
   }
 
   destroy(): void {
-    this.stopToggleLoop();
+    this.stopPattern();
     if (this.hapticLabel) {
       this.hapticLabel.remove();
       this.hapticLabel = null;
@@ -83,31 +77,66 @@ export class WebHaptics {
     }
   }
 
-  private startToggleLoop(intensity: number): void {
-    if (this.rafId !== null) return;
-
-    let lastClickTime = 0;
-    const clickInterval = 1000 / 24; // 24 times per second
-    const loop = (time: number) => {
-      this.hapticLabel?.click();
-      if (
-        this.debug &&
-        this.audioCtx &&
-        time - lastClickTime >= clickInterval
-      ) {
-        this.playClick(intensity);
-        lastClickTime = time;
-      }
-      this.rafId = requestAnimationFrame(loop);
-    };
-    this.rafId = requestAnimationFrame(loop);
-  }
-
-  private stopToggleLoop(): void {
+  private stopPattern(): void {
     if (this.rafId !== null) {
       cancelAnimationFrame(this.rafId);
       this.rafId = null;
     }
+    this.patternResolve?.();
+    this.patternResolve = null;
+  }
+
+  private runPattern(pattern: number[], intensity: number): Promise<void> {
+    return new Promise((resolve) => {
+      this.patternResolve = resolve;
+
+      const phases: number[] = [];
+      let cumulative = 0;
+      for (const p of pattern) {
+        cumulative += p;
+        phases.push(cumulative);
+      }
+      const totalDuration = cumulative;
+
+      let startTime = 0;
+      let lastClickTime = 0;
+      const clickInterval = 1000 / 8;
+
+      const loop = (time: number) => {
+        if (startTime === 0) startTime = time;
+        const elapsed = time - startTime;
+
+        if (elapsed >= totalDuration) {
+          this.rafId = null;
+          this.patternResolve = null;
+          resolve();
+          return;
+        }
+
+        let phaseIndex = 0;
+        for (let i = 0; i < phases.length; i++) {
+          if (elapsed < phases[i]!) {
+            phaseIndex = i;
+            break;
+          }
+        }
+
+        if (phaseIndex % 2 === 0) {
+          this.hapticLabel?.click();
+          if (
+            this.debug &&
+            this.audioCtx &&
+            time - lastClickTime >= clickInterval
+          ) {
+            this.playClick(intensity);
+            lastClickTime = time;
+          }
+        }
+
+        this.rafId = requestAnimationFrame(loop);
+      };
+      this.rafId = requestAnimationFrame(loop);
+    });
   }
 
   private playClick(intensity: number): void {
