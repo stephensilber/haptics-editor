@@ -11,6 +11,8 @@ import { InstallCommands } from "../installation";
 import { Usage } from "../usage";
 import { AnimatePresence, motion } from "motion/react";
 import { useHaptics } from "../../hooks/useHaptics";
+import { AutoResize } from "../../components/auto-resizer";
+import { Footer } from "../../components/footer";
 
 export default function MobileView({
   disabled,
@@ -58,29 +60,33 @@ export default function MobileView({
           </div>
         )}
 
-        <AnimatePresence initial={false} mode="popLayout">
-          <motion.div
-            key={view}
-            initial={{ x: view === "play" ? -8 : 8 }}
-            animate={{ x: 0 }}
-            transition={{ duration: 0.1, ease: "easeOut" }}
-          >
-            {view === "play" && <Demo setShaking={setShaking} />}
-            {view === "install" && (
-              <div className={styles.installation}>
-                <section>
-                  <h3>Install</h3>
-                  <InstallCommands />
-                </section>
+        <AutoResize property="height" overflow duration={600}>
+          <AnimatePresence initial={false} mode="popLayout">
+            <motion.div
+              key={view}
+              initial={{ x: view === "play" ? -8 : 8 }}
+              animate={{ x: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
+              {view === "play" && <Demo setShaking={setShaking} />}
+              {view === "install" && (
+                <div className={styles.installation}>
+                  <section>
+                    <h3>Install</h3>
+                    <InstallCommands />
+                  </section>
 
-                <section>
-                  <h3>Usage</h3>
-                  <Usage />
-                </section>
-              </div>
-            )}
-          </motion.div>
-        </AnimatePresence>
+                  <section>
+                    <h3>Usage</h3>
+                    <Usage />
+                  </section>
+
+                  <Footer />
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </AutoResize>
       </div>
 
       {disabled && (
