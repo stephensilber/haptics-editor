@@ -22,7 +22,7 @@
     h3 {
       font-size: 0.875rem;
       font-weight: 500;
-      color: #ffffff;
+      color: var(--color);
     }
   }
 }
@@ -31,12 +31,17 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.25rem;
+
+  img {
+    display: block;
+  }
 
   h1 {
     font-size: 1rem;
     font-weight: 500;
-    color: #ffffff;
+    color: var(--color);
     font-weight: 500;
   }
 
@@ -80,27 +85,53 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  gap: 1rem;
-  padding: 3rem;
-  border-radius: 1rem;
-  background: var(--body-light);
+
   .buttons {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: 0.5rem;
 
     button {
       aspect-ratio: 1/1;
+      position: relative;
+      padding: 2rem;
       font-family: var(--font-secondary);
-      font-size: 1.25rem;
+      font-size: 1rem;
       font-weight: 500;
       text-align: center;
-      color: #ffffff;
-      border-radius: 1rem;
-      background: var(--body-light);
-      &:active {
-        scale: 0.99;
+      color: var(--color);
+
+      &:active:before {
+        transform: scale(0.96);
+        transition-duration: 400ms;
+      }
+
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        inset: 0;
+        background: var(--color);
+        opacity: 0.1;
+        border-radius: 2rem;
+        corner-shape: superellipse(1.25);
+        transition: transform;
+        transition-duration: 1000ms;
+        /* prettier-ignore */
+        transition-timing-function: linear(0 0%, 0.06015 1%, 0.216816 2%, 0.432019 3%, 0.668801 4%, 0.8953 5%, 1.08739 6%, 1.229888 7%, 1.316477 8%, 1.348613 9%, 1.333761 10%, 1.283298 11%, 1.210385 12%, 1.128081 13%, 1.047851 14%, 0.978562 15%, 0.925993 16%, 0.892799 17%, 0.878843 18%, 0.88179 19%, 0.897825 20%, 0.922402 21%, 0.950918 22%, 0.979261 23%, 1.004183 24%, 1.0235 25%, 1.036125 26%, 1.041972 27%, 1.041755 28%, 1.036745 29%, 1.028509 30%, 1.018662 31%, 1.008676 32%, 0.999737 33%, 0.992665 34%, 0.987896 35%, 0.985509 36%, 0.985291 37%, 0.986822 38%, 0.989565 39%, 0.992953 40%, 0.996461 41%, 0.999659 42%, 1.002239 43%, 1.004029 44%, 1.004985 45%, 1.005167 46%, 1.004713 47%, 1.003807 48%, 1.002645 49%, 1.001416 50%, 1.000275 51%, 0.999337 52%, 0.998669 53%, 0.998292 54%, 0.99819 55%, 0.998319 56%, 0.998616 57%, 0.999012 58%, 0.999442 59%, 0.999848 60%, 1.000188 61%, 1.000436 62%, 1.000583 63%, 1.000632 64%, 1.000598 65%, 1.000502 66%, 1.000367 67%, 1.000217 68%, 1.000073 69%);
+      }
+
+      &:nth-child(1) {
+        --color: var(--blue);
+      }
+      &:nth-child(2) {
+        --color: var(--green);
+      }
+      &:nth-child(3) {
+        --color: var(--orange);
+      }
+      &:nth-child(4) {
+        --color: var(--red);
       }
     }
   }
@@ -127,7 +158,7 @@
       padding: 1rem 0;
       font-size: 0.8125rem;
       font-weight: 500;
-      color: #ffffff;
+      color: var(--color);
       opacity: 0.35;
       transition: opacity 100ms ease;
       &:hover,
@@ -157,26 +188,6 @@
           }
         }
       }
-    }
-  }
-}
-
-.localeSwitcher {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 2rem 0 0;
-
-  button {
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: #ffffff;
-    opacity: 0.35;
-    transition: opacity 100ms ease;
-    &:hover,
-    &[data-active="true"] {
-      opacity: 1;
     }
   }
 }
