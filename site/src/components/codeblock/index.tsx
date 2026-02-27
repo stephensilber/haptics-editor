@@ -4,6 +4,7 @@ import styles from "./styles.module.scss";
 import { AutoResize } from "../auto-resizer";
 import { useWebHaptics } from "web-haptics/react";
 import { useApp } from "../../context/app";
+import { TextMorph } from "torph/react";
 
 export const CodeBlock = ({
   code,
@@ -32,7 +33,7 @@ export const CodeBlock = ({
           }
         }}
       >
-        {isCopied ? "Copied" : "Copy"}
+        <TextMorph>{isCopied ? "Copied" : "Copy"}</TextMorph>
       </button>
       <pre>
         <AutoResize>{children ?? code}</AutoResize>

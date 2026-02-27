@@ -1,5 +1,5 @@
-import DesktopView from "./components/desktop-view";
-import MobileView from "./components/mobile-view";
+import DesktopView from "./surfaces/desktop-view";
+import MobileView from "./surfaces/mobile-view";
 import { ParticlesProvider } from "./components/particles";
 import { AppProvider } from "./context/app";
 

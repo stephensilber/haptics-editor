@@ -1,0 +1,31 @@
+.install {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: -1rem 0 0;
+
+  .cmd {
+    width: 100%;
+    //max-width: 14rem;
+    //margin: 0 auto;
+  }
+
+  .commands {
+    display: flex;
+    gap: 1rem;
+
+    a,
+    button {
+      padding: 1rem 0;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--color);
+      opacity: 0.35;
+      transition: opacity 100ms ease;
+      &:hover,
+      &[data-active="true"] {
+        opacity: 1;
+      }
+    }
+  }
+}

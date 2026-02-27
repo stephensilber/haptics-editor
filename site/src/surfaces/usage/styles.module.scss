@@ -1,0 +1,22 @@
+.usage {
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0 1rem;
+
+    @media (max-width: 480px) {
+      button {
+        padding: 0.75rem;
+        .name {
+          display: none;
+        }
+        .logo {
+          svg {
+            transform: none;
+          }
+        }
+      }
+    }
+  }
+}

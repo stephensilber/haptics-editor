@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import { useWebHaptics } from "web-haptics/react";
 import { defaultPatterns } from "web-haptics";
 import { useRef } from "react";
-import { useParticles } from "../particles";
+import { useParticles } from "../../components/particles";
 import { useApp } from "../../context/app";
 
 // add emoji sets
@@ -49,34 +49,36 @@ export const Demo = () => {
     <div className={styles.demo}>
       <div className={styles.buttons}>
         {Object.entries(defaultPatterns).map(([name, pattern]) => (
-          <button
+          <div
             key={name}
-            aria-description={pattern.description}
-            onTouchStart={(e) =>
-              handleTrigger(
-                name,
-                pattern,
-                e.touches[0].clientX,
-                e.touches[0].clientY,
+            className={styles.button}
+            ref={(el) => {
+              if (el) spanRefs.current.set(name, el);
+            }}
+            onAnimationEnd={(e) =>
+              (e.currentTarget as HTMLSpanElement).classList.remove(
+                styles[name]!,
               )
             }
-            onMouseDown={(e) =>
-              handleTrigger(name, pattern, e.clientX, e.clientY)
-            }
           >
-            <span
-              ref={(el) => {
-                if (el) spanRefs.current.set(name, el);
-              }}
-              onAnimationEnd={(e) =>
-                (e.currentTarget as HTMLSpanElement).classList.remove(
-                  styles[name]!,
+            <button
+              data-pattern={name}
+              aria-description={pattern.description}
+              onTouchStart={(e) =>
+                handleTrigger(
+                  name,
+                  pattern,
+                  e.touches[0].clientX,
+                  e.touches[0].clientY,
                 )
+              }
+              onMouseDown={(e) =>
+                handleTrigger(name, pattern, e.clientX, e.clientY)
               }
             >
               {name.charAt(0).toUpperCase() + name.slice(1)}
-            </span>
-          </button>
+            </button>
+          </div>
         ))}
       </div>
     </div>

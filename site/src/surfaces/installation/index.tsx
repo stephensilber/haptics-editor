@@ -1,9 +1,11 @@
 import { useState } from "react";
 
 import styles from "./styles.module.scss";
-import { CodeBlock } from "../codeblock";
+
 import { useWebHaptics } from "web-haptics/react";
 import { TextMorph } from "torph/react";
+
+import { CodeBlock } from "../../components/codeblock";
 import { useApp } from "../../context/app";
 
 const pkgCmds = {
