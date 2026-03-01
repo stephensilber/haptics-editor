@@ -1,5 +1,11 @@
 # web-haptics
 
+## 0.0.5
+
+### Patch Changes
+
+- update package readme
+
 ## 0.0.4
 
 ### Patch Changes
