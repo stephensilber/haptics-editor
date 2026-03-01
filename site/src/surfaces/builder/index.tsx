@@ -8,7 +8,6 @@ import { useHaptics } from "../../hooks/useHaptics";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { CodeBlock } from "../../components/codeblock";
 import { Button } from "../../components/button";
-import { TextMorph } from "torph/react";
 
 // --- Types ---
 
