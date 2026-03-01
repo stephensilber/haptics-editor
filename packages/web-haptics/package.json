@@ -1,6 +1,6 @@
 {
   "name": "web-haptics",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Haptic feedback for the mobile web.",
   "homepage": "https://haptics.lochie.me",
   "sideEffects": false,

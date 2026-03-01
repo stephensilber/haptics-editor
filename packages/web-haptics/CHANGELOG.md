@@ -1,5 +1,11 @@
 # web-haptics
 
+## 0.0.4
+
+### Patch Changes
+
+- fix: initial firing of haptic
+
 ## 0.0.3
 
 ### Patch Changes
