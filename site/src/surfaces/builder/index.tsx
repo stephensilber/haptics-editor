@@ -548,26 +548,27 @@ export const HapticBuilder = () => {
             ))}
           </div>
         </HorizontalScroll>
-        <div className={styles.controls}>
-          {totalDuration > 0 && (
+        {totalDuration > 0 && (
+          <div className={styles.controls}>
             <span className={styles.totalDuration}>{totalDuration}ms</span>
-          )}
-          <button onClick={handlePlay} disabled={state.taps.length === 0}>
-            <svg
-              aria-label="Play"
-              width="15"
-              height="17"
-              viewBox="0 0 15 17"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0.000323688 2.50385L0.000322723 13.6729C0.000322555 15.6161 2.12025 16.8164 3.78656 15.8166L13.0941 10.2321C14.7125 9.2611 14.7125 6.91565 13.0941 5.94465L3.78656 0.36012C2.12025 -0.639667 0.000323855 0.560616 0.000323688 2.50385Z"
-                fill="currentColor"
-              />
-            </svg>
-          </button>
-        </div>
+
+            <button onClick={handlePlay} disabled={state.taps.length === 0}>
+              <svg
+                aria-label="Play"
+                width="15"
+                height="17"
+                viewBox="0 0 15 17"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0.000323688 2.50385L0.000322723 13.6729C0.000322555 15.6161 2.12025 16.8164 3.78656 15.8166L13.0941 10.2321C14.7125 9.2611 14.7125 6.91565 13.0941 5.94465L3.78656 0.36012C2.12025 -0.639667 0.000323855 0.560616 0.000323688 2.50385Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Timeline */}
@@ -685,7 +686,9 @@ export const HapticBuilder = () => {
 
           {/* Empty state */}
           {state.taps.length === 0 && (
-            <div className={styles.emptyState}>Click to add a tap</div>
+            <div className={styles.emptyState}>
+              <span>Tap to add a tap</span>
+            </div>
           )}
         </div>
 
