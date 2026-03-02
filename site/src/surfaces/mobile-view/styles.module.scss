@@ -218,22 +218,22 @@
   }
 }
 
-.warning {
-  animation: warning 350ms ease;
+.error {
+  animation: error 250ms ease;
 }
 
-@keyframes warning {
+@keyframes error {
   0% {
-    transform: translateY(0);
+    transform: translateX(0);
   }
   33% {
-    transform: translateY(-3px);
+    transform: translateX(-8px);
   }
   66% {
-    transform: translateY(3px);
+    transform: translateX(8px);
   }
   100% {
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
 

@@ -8,7 +8,7 @@ import { useHaptics } from "../../hooks/useHaptics";
 // add emoji sets with [emoji, weight, canFlip?] tuples
 type EmojiEntry = [emoji: string, weight: number, canFlip?: boolean];
 
-const demoPresets = ["success", "error", "nudge", "buzz"] as const;
+const demoPresets = ["success", "nudge", "error", "buzz"] as const;
 
 const emojis = {
   success: [
