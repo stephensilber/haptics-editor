@@ -10,11 +10,11 @@
   flex-direction: column;
 
   --padding: 1.25rem;
-  --padding-top: 110cqw;
+  --padding-top: 102cqw;
 
   &[data-disabled="false"] {
     --padding: 2.5rem;
-    --padding-top: 90cqw;
+    --padding-top: 85cqw;
   }
 }
 
@@ -96,7 +96,7 @@
 }
 .content {
   overflow: hidden;
-  padding: 0 var(--padding);
+  padding: 1rem var(--padding);
 }
 
 .installation {
