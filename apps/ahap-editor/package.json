@@ -11,7 +11,8 @@
   "dependencies": {
     "motion": "^12.23.16",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "web-haptics": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

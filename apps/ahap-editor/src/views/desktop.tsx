@@ -149,7 +149,7 @@ export default function DesktopView() {
             showDownload
           />
 
-          <Timeline ref={timelineRef} state={state} dispatch={dispatch} addMode={addMode} />
+          <Timeline ref={timelineRef} state={state} dispatch={dispatch} addMode={addMode} debug={true} />
 
           {selectedEvent && (
             <EventInspector event={selectedEvent} dispatch={dispatch} />

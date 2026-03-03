@@ -8,7 +8,7 @@ import {
 } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import type { AhapEvent } from "../../lib/types";
-import { previewEvents } from "../../lib/preview";
+import { previewEvents, triggerFeedback } from "../../lib/preview";
 import styles from "./styles.module.scss";
 
 let nextId = 100;
@@ -192,6 +192,7 @@ interface TimelineProps {
   state: EditorState;
   dispatch: React.Dispatch<TimelineAction>;
   addMode: "transient" | "continuous";
+  debug: boolean;
 }
 
 export interface TimelineHandle {
@@ -201,7 +202,7 @@ export interface TimelineHandle {
 }
 
 export const Timeline = forwardRef<TimelineHandle, TimelineProps>(function Timeline(
-  { state, dispatch, addMode },
+  { state, dispatch, addMode, debug },
   ref,
 ) {
   const timelineRef = useRef<HTMLDivElement>(null);
@@ -246,8 +247,9 @@ export const Timeline = forwardRef<TimelineHandle, TimelineProps>(function Timel
       if (!rect) return;
       const time = ((e.clientX - rect.left) / rect.width) * timelineDuration;
       dispatch({ type: "ADD_EVENT", time, eventType: addMode });
+      triggerFeedback(debug);
     },
-    [dispatch, addMode, timelineDuration],
+    [dispatch, addMode, timelineDuration, debug],
   );
 
   const handleDragStart = useCallback(
@@ -304,6 +306,7 @@ export const Timeline = forwardRef<TimelineHandle, TimelineProps>(function Timel
       const onUp = () => {
         if (pendingDeleteIdRef.current === eventId) {
           dispatch({ type: "REMOVE_EVENT", id: eventId });
+          triggerFeedback(debug);
         }
         setPendingDeleteId(null);
         pendingDeleteIdRef.current = null;
@@ -404,7 +407,7 @@ export const Timeline = forwardRef<TimelineHandle, TimelineProps>(function Timel
     [dispatch],
   );
 
-  const handlePlay = useCallback(async () => {
+  const handlePlay = useCallback(() => {
     if (state.events.length === 0) return;
 
     timeoutsRef.current.forEach(clearTimeout);
@@ -416,7 +419,7 @@ export const Timeline = forwardRef<TimelineHandle, TimelineProps>(function Timel
     );
     setActiveTapIds(immediate);
 
-    const { stop } = await previewEvents(state.events);
+    const { stop } = previewEvents(state.events, debug);
     stopRef.current = stop;
     setPlaying(true);
     setPlayCount((c) => c + 1);
@@ -453,7 +456,7 @@ export const Timeline = forwardRef<TimelineHandle, TimelineProps>(function Timel
         setActiveTapIds(new Set());
       }, end),
     );
-  }, [state.events, totalDuration]);
+  }, [state.events, totalDuration, debug]);
 
   useImperativeHandle(
     ref,
@@ -475,6 +478,7 @@ export const Timeline = forwardRef<TimelineHandle, TimelineProps>(function Timel
       if ((e.key === "Delete" || e.key === "Backspace") && state.selectedId) {
         e.preventDefault();
         dispatch({ type: "REMOVE_EVENT", id: state.selectedId });
+        triggerFeedback(debug);
       }
       if (e.key === " " && state.events.length > 0) {
         e.preventDefault();

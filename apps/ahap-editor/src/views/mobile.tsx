@@ -78,7 +78,7 @@ export default function MobileView() {
         showShare
       />
 
-      <Timeline ref={timelineRef} state={state} dispatch={dispatch} addMode={addMode} />
+      <Timeline ref={timelineRef} state={state} dispatch={dispatch} addMode={addMode} debug={false} />
 
       {selectedEvent && (
         <EventInspector event={selectedEvent} dispatch={dispatch} />
