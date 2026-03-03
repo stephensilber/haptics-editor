@@ -31,6 +31,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - run: pnpm --filter=web-haptics build
+
       - run: pnpm --filter=ahap-editor build
 
       - uses: actions/upload-pages-artifact@v3
